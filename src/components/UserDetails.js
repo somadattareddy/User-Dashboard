@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { UserContext } from "../contexts/UserContext";
 import axios from "axios";
+import { motion } from "framer-motion";
 import styled from "styled-components";
 import AddPost from "./AddPost";
 
@@ -64,6 +65,11 @@ const UserDetails = () => {
   }
 
   return (
+    <motion.div
+      initial={{ opacity: 0 }} // Initial styles (hidden)
+      animate={{ opacity: 1 }} // Animation styles (fade-in)
+      exit={{ opacity: 0 }} // Exit styles (fade-out)
+    >
     <UserDetailsContainer>
       <UserDetailItem>
         <h2>{user.name}</h2>
@@ -84,6 +90,7 @@ const UserDetails = () => {
       </UserPosts>
       <AddPost />
     </UserDetailsContainer>
+    </motion.div>
   );
 };
 

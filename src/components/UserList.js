@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { UserContext } from "../contexts/UserContext";
 import styled from "styled-components";
+import { motion } from "framer-motion";
 
 const UserListContainer = styled.div`
   margin: 2rem auto;
@@ -24,6 +25,13 @@ const Pagination = styled.div`
 const SearchInput = styled.input`
   padding: 0.5rem;
   margin-bottom: 1rem;
+  transition: all 0.3s;
+  &:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 5px #007bff;
+    transform: scale(1.05); /* Slightly scale the input when focused */
+  }
 `;
 
 const UserList = () => {
@@ -63,6 +71,11 @@ const UserList = () => {
   }
 
   return (
+    <motion.div
+      initial={{ opacity: 0 }} // Initial styles (hidden)
+      animate={{ opacity: 1 }} // Animation styles (fade-in)
+      exit={{ opacity: 0 }} // Exit styles (fade-out)
+    >
     <UserListContainer>
       <h1>Users</h1>
       <SearchInput
@@ -74,11 +87,17 @@ const UserList = () => {
       {errorMessage && <p>{errorMessage}</p>} {/* Display the error message */}
       {currentUsers.map((user) => (
         <Link key={user.id} to={`/user/${user.id}`}>
+          <motion.div // Apply animation to each user item
+            initial={{ opacity: 0 }} // Initial styles (hidden)
+            animate={{ opacity: 1 }} // Animation styles (fade-in)
+            exit={{ opacity: 0 }} // Exit styles (fade-out)
+          >
           <UserItem>
             <h3>{user.name}</h3>
             <p>Email: {user.email}</p>
             <p>Company: {user.company.name}</p>
           </UserItem>
+          </motion.div>
         </Link>
       ))}
       <Pagination>
@@ -93,6 +112,7 @@ const UserList = () => {
         ))}
       </Pagination>
     </UserListContainer>
+    </motion.div>
   );
 };
 
