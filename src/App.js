@@ -1,24 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { UserProvider } from "./contexts/UserContext";
+import { AddPostProvider } from "./contexts/AddPostContext";
+import Navbar from "./components/Navbar";
+import UserList from "./components/UserList";
+import UserDetails from "./components/UserDetails";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <UserProvider>
+        <AddPostProvider>
+          <Navbar />
+          <Routes>
+            <Route exact path="/" element={<UserList/>} />
+            <Route path="/user/:id" element={<UserDetails/>} />
+          </Routes>
+        </AddPostProvider>
+      </UserProvider>
+    </Router>
   );
 }
 
